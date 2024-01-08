@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_2/models/student.dart';
 import 'package:flutter_2/screens/student_add.dart';
+import 'package:flutter_2/screens/student_update.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State {
   List<Student> students = [
-    Student.withId(1, "Barıs", "K", 39),
+    Student.withId(1, "Baris", "K", 39),
     Student.withId(2, "Berkay", "K", 100),
     Student.withId(3, "Meryem", "D", 49),
   ];
@@ -92,7 +93,7 @@ class _HomeScreenState extends State {
                   MaterialPageRoute(
                     builder: (context) => StudentAdd(students),
                   ),
-                );
+                ).then((value) => setState(() {}));
               },
             ),
           ),
@@ -100,22 +101,27 @@ class _HomeScreenState extends State {
             fit: FlexFit.tight,
             flex: 7,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black12,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.add),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  Text("Güncelle")
-                ],
-              ),
-              onPressed: () {
-                print("Güncelle");
-              },
-            ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black12,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.add),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text("Güncelle")
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          StudentUpdate(student: selectedStudent),
+                    ),
+                  ).then((value) => setState(() {}));
+                }),
           ),
           Flexible(
             fit: FlexFit.tight,

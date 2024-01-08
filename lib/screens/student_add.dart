@@ -12,7 +12,9 @@ class StudentAdd extends StatefulWidget {
   }
 }
 
-class _StudentAddState extends State {
+class _StudentAddState extends State<StudentAdd> {
+  var formKey = GlobalKey<FormState>();
+
   Student student = Student("", "", 0); // student değişkeni tanımlandı
 
   @override
@@ -24,11 +26,14 @@ class _StudentAddState extends State {
       body: Container(
         margin: EdgeInsets.all(20.0),
         child: Form(
+          key: formKey,
           child: Column(
             children: <Widget>[
+              buildSubmitButton(),
               buildFirstNameField(),
               buildLastNameField(),
               buildLastGradeField(),
+
               // Diğer alanları da ekleyebilirsiniz.
             ],
           ),
@@ -64,6 +69,17 @@ class _StudentAddState extends State {
       initialValue: student.grade.toString(),
       onSaved: (String? value) {
         student.grade = int.tryParse(value ?? "0") ?? 0;
+      },
+    );
+  }
+
+  Widget buildSubmitButton() {
+    return ElevatedButton(
+      child: Text("Kaydet"),
+      onPressed: () {
+        formKey.currentState?.save();
+        widget.students.add(student);
+        Navigator.pop(context);
       },
     );
   }
