@@ -29,11 +29,10 @@ class _StudentAddState extends State<StudentAdd> {
           key: formKey,
           child: Column(
             children: <Widget>[
-              buildSubmitButton(),
               buildFirstNameField(),
               buildLastNameField(),
               buildLastGradeField(),
-
+              buildSubmitButton(),
               // Diğer alanları da ekleyebilirsiniz.
             ],
           ),

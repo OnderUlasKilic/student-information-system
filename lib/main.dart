@@ -3,18 +3,22 @@ import 'package:flutter_2/models/student.dart';
 import 'package:flutter_2/screens/student_add.dart';
 import 'package:flutter_2/screens/student_update.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _HomeScreenState();
@@ -51,17 +55,17 @@ class _HomeScreenState extends State {
                       "${students[index].firstName} ${students[index].lastName}"),
                   subtitle: Text(
                       "Sınavdan aldığı not: ${students[index].grade} [${students[index].getStatus}]"),
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundImage: NetworkImage(
                         "https://odb.esenyurt.edu.tr/Uploads/odb/HizliMenu/Orjinal/f5860b5e-e53e-4102-90a5-9bf71ef433e3-ogrenci-isleri.png"),
                   ),
                   trailing: buildStatusIcon(students[index].grade),
                   onTap: () {
                     setState(() {
-                      this.selectedStudent = students[index];
+                      selectedStudent = students[index];
                     });
 
-                    print(this.selectedStudent.firstName);
+                    print(selectedStudent.firstName);
                   },
                   onLongPress: () {
                     print("Uzun Basıldı");
@@ -69,16 +73,16 @@ class _HomeScreenState extends State {
                 );
               }),
         ),
-        Text("Seçili öğrenci " + selectedStudent.firstName),
+        Text("Seçili öğrenci ${selectedStudent.firstName}"),
         Row(children: <Widget>[
           Flexible(
             fit: FlexFit.tight,
             flex: 8,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.greenAccent,
+                backgroundColor: Colors.greenAccent,
               ),
-              child: Row(
+              child: const Row(
                 children: <Widget>[
                   Icon(Icons.add),
                   SizedBox(
@@ -102,9 +106,9 @@ class _HomeScreenState extends State {
             flex: 7,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black12,
+                  backgroundColor: Colors.black12,
                 ),
-                child: Row(
+                child: const Row(
                   children: <Widget>[
                     Icon(Icons.add),
                     SizedBox(
@@ -128,9 +132,9 @@ class _HomeScreenState extends State {
             flex: 5,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.amberAccent,
+                backgroundColor: Colors.amberAccent,
               ),
-              child: Row(
+              child: const Row(
                 children: <Widget>[
                   Icon(Icons.add),
                   SizedBox(
@@ -140,7 +144,34 @@ class _HomeScreenState extends State {
                 ],
               ),
               onPressed: () {
-                print("Sil");
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Onay'),
+                      content: Text(
+                          'Seçili öğrenciyi silmek istediğinize emin misiniz?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('İptal'),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pop(); // Kullanıcı iptal ederse dialog kapatılır
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Sil'),
+                          onPressed: () {
+                            setState(() {
+                              students.remove(selectedStudent);
+                            });
+                            Navigator.of(context).pop(); // Dialog kapatılır
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -151,11 +182,11 @@ class _HomeScreenState extends State {
 
   Widget buildStatusIcon(int grade) {
     if (grade >= 50) {
-      return Icon(Icons.done);
+      return const Icon(Icons.done);
     } else if (grade >= 40) {
-      return Icon(Icons.album);
+      return const Icon(Icons.album);
     } else {
-      return Icon(Icons.clear);
+      return const Icon(Icons.clear);
     }
   }
 }

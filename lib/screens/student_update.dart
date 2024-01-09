@@ -102,13 +102,39 @@ class _StudentUpdateState extends State<StudentUpdate> {
     return ElevatedButton(
       child: Text("Güncelle"),
       onPressed: () {
-        // Formun geçerli olup olmadığını kontrol et
-        if (formKey.currentState?.validate() ?? false) {
-          formKey.currentState?.save(); // Formdaki verileri kaydet
-
-          // Sayfayı kapat
-          Navigator.pop(context);
-        }
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Onay'),
+              content: Text(
+                  'Seçili öğrenciyi güncellemek istediğinize emin misiniz?'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Iptal'),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(); // Kullanıcı iptal ederse dialog kapatılır
+                  },
+                ),
+                TextButton(
+                    child: Text('Güncelle'),
+                    onPressed: () {
+                      if (formKey.currentState?.validate() ?? false) {
+                        formKey.currentState?.save();
+                        // Burada öğrenci güncelleme işlemini gerçekleştir
+                        // Örneğin: selectedStudent'i kullanarak güncelleme işlemini yapabilirsin
+                        // Örnek: students[index] = updatedStudent;
+                        // Güncelleme işlemi tamamlandıktan sonra dialog'u kapat
+                        Navigator.of(context).pop(); // Closes the dialog
+                        Navigator.of(context).pop();
+                      }
+                      ;
+                    }),
+              ],
+            );
+          },
+        );
       },
     );
   }
