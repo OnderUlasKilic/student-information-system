@@ -1,5 +1,3 @@
-// Class isimleri ile dosya isimleri aynı olmalıdır.
-
 class Student {
   int? id;
   String firstName;
@@ -7,11 +5,21 @@ class Student {
   int grade;
   String? status;
 
-  // Değişkenler(String, int, double, List ) this.ile direk atayabiliyoruz.
-  // Constructor bir sınıfın yapıcı metodudur. Yani sınıf oluşturulurken otomatik olarak bu metod çağrılır.
-  Student(this.firstName, this.lastName, this.grade);
-  // Bu Constructor named(isimli) bir yapıcı metodudur.
-  Student.withId(this.id, this.firstName, this.lastName, this.grade);
+  // Constructor
+  Student(this.firstName, this.lastName, int grade)
+      : grade = (grade < 0)
+            ? 0
+            : (grade > 100)
+                ? 100
+                : grade;
+
+  // Named constructor
+  Student.withId(this.id, this.firstName, this.lastName, int grade)
+      : grade = (grade < 0)
+            ? 0
+            : (grade > 100)
+                ? 100
+                : grade;
 
   String get getStatus {
     String message = "";

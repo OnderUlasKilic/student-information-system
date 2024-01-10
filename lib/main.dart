@@ -180,11 +180,15 @@ class _HomeScreenState extends State {
     );
   }
 
-  Widget buildStatusIcon(int grade) {
-    if (grade >= 50) {
-      return const Icon(Icons.done);
-    } else if (grade >= 40) {
-      return const Icon(Icons.album);
+  Widget buildStatusIcon(int? grade) {
+    if (grade != null) {
+      if (grade >= 50) {
+        return const Icon(Icons.done);
+      } else if (grade >= 40) {
+        return const Icon(Icons.album);
+      } else {
+        return const Icon(Icons.clear);
+      }
     } else {
       return const Icon(Icons.clear);
     }
